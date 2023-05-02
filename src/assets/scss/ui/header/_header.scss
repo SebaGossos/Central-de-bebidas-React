@@ -89,6 +89,24 @@
             font-size: 2.5rem;
         }
     }
+    &__active,
+    &__deactive{
+        font-size: 2.5rem;
+        &:hover{
+            color: v.$negro;
+            transform: scale(1.1);
+            transition: all .33s;
+        }
+    }
+    &__active{
+        color: v.$primario; 
+        background-color: v.$grisClaro;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+    }
+    &__deactive{
+        color: v.$cuarto;
+    }
     &__carrito{
         font-size: 3rem;
     }

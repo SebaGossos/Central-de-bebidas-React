@@ -19,10 +19,10 @@
 
     &__heading{
         font-weight: 400;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     &__stock{
-        margin: 0 0 2rem;
+        margin: 0 0 1rem;
         font-size: 2.7rem; 
         font-weight: 600;
         color: v.$cuarto;
@@ -31,7 +31,14 @@
         color: v.$quinto;
         font-size: 3.2rem;
         font-weight: 600;
-        margin: 0 0 2rem;
+        margin: 0 0 1rem;
+    }
+    &__description{
+        margin: 0 0 1rem;
+        color: v.$grisOscuro;
+        font-size: 2rem; 
+        cursor: pointer;
+        
     }
     &__boton{
         @include m.boton(v.$primario, v.$blanco);

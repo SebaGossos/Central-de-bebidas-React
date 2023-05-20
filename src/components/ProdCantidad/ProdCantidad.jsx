@@ -11,10 +11,8 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     // Segun el localStorage devuelve al estado 0 o la cantidad que tiene el item especifico.
     const [cantidad, setCantidad] = useState(() => {
         const storedData = localStorage.getItem('productQuantities')
-
         if (storedData) {
             const productQuantities = JSON.parse(storedData)
-            setStockProd((prevStockProd) => prevStockProd - productQuantities[id] || prevStockProd)
             return productQuantities[id] || 0
         } else {
             localStorage.setItem('productQuantities', JSON.stringify({}))
@@ -39,11 +37,14 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
         }
 
     }
-
     useEffect(() => {
         pushLocalStorage('productQuantities')
     }, [cantidad])
-
+    useEffect(() => {
+        const productQuantities = JSON.parse(localStorage.getItem('productQuantities'))
+        setStockProd((prevStockProd) => prevStockProd - productQuantities[id] || prevStockProd)
+    },[])
+    
     function agregar() {
         if (stockProd < 1) {
             alert('No hay mas stock')
@@ -78,11 +79,11 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
             </button>
         ) : (<>
             <div className="mostrar">
-                <p class="mostrar__texto">{cantidad}</p>
-                <button class="mostrar__mas" onClick={agregar}>
+                <p className="mostrar__texto">{cantidad}</p>
+                <button className="mostrar__mas" onClick={agregar}>
                     +
                 </button>
-                <button class="mostrar__menos" onClick={eliminar}>
+                <button className="mostrar__menos" onClick={eliminar}>
                     -
                 </button>
             </div>

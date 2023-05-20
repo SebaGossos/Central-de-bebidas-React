@@ -3,14 +3,11 @@ import { getProducts } from "../../../asyncMock";
 
 
 export const ProductsContext = createContext()
-
 export const useProducts = () => useContext(ProductsContext)
 
 export const ProductsProvider = ({children}) => {
-
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState([])
-
 
     const getPoductsLocalStorage = async () => {
         try{
@@ -21,7 +18,6 @@ export const ProductsProvider = ({children}) => {
             console.error(error)
         }
     }
-
     useEffect(() => {
         getPoductsLocalStorage()
     },[])

@@ -6,7 +6,7 @@ import '../build/css/app.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import CartContainer from './components/CartContainer/CartContainer'
 import { CartProvider } from './components/context/CartContext'
-import { ProductsProvider } from './components/ProductsContext/ProductsContext'
+import { ProductsProvider } from './components/context/ProductsContext'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

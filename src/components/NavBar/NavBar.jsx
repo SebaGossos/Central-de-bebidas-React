@@ -1,16 +1,22 @@
 import {Link, NavLink } from "react-router-dom"
 import CartWidget from "../CartWidget/CartWidget"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 export function NavBar(){
-    const logoCentralBebidas = "./build/img/central"
+    const {category} = useParams()
+    const [logoCentral,  setLogoCentral] = useState("./build/img/central")
 
+    useEffect(() => {
+        setLogoCentral("../build/img/central")
+    }, [category])
     return(
         <header className='contenedor header'>
             <div className="header__logo">
                 <Link to="/">
                     <picture>
-                        <source srcset={logoCentralBebidas+".avif"} type="image/avif"/>
-                        <source srcset={logoCentralBebidas+".webp"} type="image/webp"/>
-                        <img className="header__imagen" loading="lazy" src={logoCentralBebidas+".png"} width="" height="" alt="logo Central Bebidas" />
+                        <source srcSet={logoCentral+".avif"} type="image/avif"/>
+                        <source srcSet={logoCentral+".webp"} type="image/webp"/>
+                        <img className="header__imagen" loading="lazy" src={logoCentral+".png"} width="" height="" alt="logo Central Bebidas" />
                     </picture>
                 </Link>
             </div>

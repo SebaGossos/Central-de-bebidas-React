@@ -1,36 +1,35 @@
 import { useState, useEffect } from "react";
 import ItemList from "../ItemList/ItemList";
 import { useParams } from "react-router-dom";
-import { useProducts } from "../ProductsContext/ProductsContext";
+import { useProducts } from "../context/ProductsContext";
 const ItemListContainer = () => {
     const [routeImg, setRouteImg] = useState(false)
-    const {category} = useParams()
-    const {products, loading} = useProducts()
+    const { category } = useParams()
+    const { products, loading } = useProducts()
     const [productsCategory, setProductsCategory] = useState(products)
 
     const getProductsCategory = () => {
-        if(category === 'alcohol'){
+        if (category === 'alcohol') {
             const alcohol = products.filter(product => product.category === true)
             setProductsCategory(alcohol)
             setRouteImg(true)
-        }else if(category === 'sinAlcohol'){
+        } else if (category === 'sinAlcohol') {
             const sinAlcohol = products.filter(product => product.category === false)
             setProductsCategory(sinAlcohol)
             setRouteImg(true)
-        }else{
+        } else {
             setProductsCategory(products)
         }
     }
-     
 
     useEffect(() => {
         getProductsCategory()
-    },[category, products])
+    }, [category, products])
 
     return (
-        <div className="contenedor principal">  
-            <h1 class=" principal__heading">Nuestros productos!</h1>   
-            <ItemList products={productsCategory} loading={loading} routeImg={routeImg}/>
+        <div className="contenedor principal">
+            <h1 className=" principal__heading">Nuestros productos!</h1>
+            <ItemList products={productsCategory} loading={loading} routeImg={routeImg} />
         </div>
     )
 }

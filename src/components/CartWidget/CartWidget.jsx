@@ -11,9 +11,9 @@ const CartWidget = () => {
 
     // let totalProductsCart = cart.length
     return (
-        <Link to='/cart' className='registro__carrito'>
+        <p to='/cart' className='registro__carrito'>
             {totalPrductsCart} 🛒
-        </Link>
+        </p>
     )
 }
 export default CartWidget

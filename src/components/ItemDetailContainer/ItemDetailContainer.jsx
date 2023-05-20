@@ -1,25 +1,23 @@
-import { useState, useEffect, } from "react"
+import { useState, useEffect } from "react"
 import ItemDetail from "../ItemDetail/ItemDetail"
 import { getProductId } from "../../../asyncMock"
 import { useParams } from "react-router-dom"
+import { useProducts } from "../context/ProductsContext"
 const ItemDetailContainer = () => {
+  const {products, loading} = useProducts()
+  const {pid, category} = useParams()
   const [product, setProduct] = useState({})
-  const {pid} = useParams()
 
-  const getProduct = async (pid) => {
+  const getProduct = (pid) => {
     const numberPid = parseInt(pid)
+    const productId = !loading ? products.find(product => product.id === numberPid) : {}
+    setProduct(productId)
 
-    try{
-      const productID = await getProductId(numberPid)
-      setProduct(productID)
-    }catch(error){
-      console.error(error)
-    }
   }
 
   useEffect(() => {
     getProduct(pid)
-  },[pid])
+  },[products])
 
     return (
     <div className="contenedor">

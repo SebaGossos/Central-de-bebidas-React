@@ -1,41 +1,36 @@
 import { useState, useEffect } from "react";
 import ItemList from "../ItemList/ItemList";
-import {getProducts} from "../../../asyncMock";
 import { useParams } from "react-router-dom";
+import { useProducts } from "../ProductsContext/ProductsContext";
 const ItemListContainer = () => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [img, setImg] = useState(false)
+    const [routeImg, setRouteImg] = useState(false)
     const {category} = useParams()
-    const getProductsData = async() => {
-        try{
-            const response = await getProducts()
-            if(category === 'alcohol'){
-                const alcohol = response.filter(product => product.category === true)
-                setProducts(alcohol)
-                setImg(true)
-            }else if(category === 'sinAlcohol'){
-                const sinAlcohol = response.filter(product => product.category === false)
-                setProducts(sinAlcohol)
-                setImg(true)
-            }else{
-                setProducts(response)
-                setImg(false)
-            }
-            setLoading(false)
-        }catch(error){
-            console.error('Error al obtener los datos: ' + error)
+    const {products, loading} = useProducts()
+    const [productsCategory, setProductsCategory] = useState(products)
+
+    const getProductsCategory = () => {
+        if(category === 'alcohol'){
+            const alcohol = products.filter(product => product.category === true)
+            setProductsCategory(alcohol)
+            setRouteImg(true)
+        }else if(category === 'sinAlcohol'){
+            const sinAlcohol = products.filter(product => product.category === false)
+            setProductsCategory(sinAlcohol)
+            setRouteImg(true)
+        }else{
+            setProductsCategory(products)
         }
     }
+     
 
     useEffect(() => {
-        getProductsData()
-    },[category])
+        getProductsCategory()
+    },[category, products])
 
     return (
         <div className="contenedor principal">  
             <h1 class=" principal__heading">Nuestros productos!</h1>   
-            <ItemList products={products} img={img} loading={loading}/>
+            <ItemList products={productsCategory} loading={loading} routeImg={routeImg}/>
         </div>
     )
 }

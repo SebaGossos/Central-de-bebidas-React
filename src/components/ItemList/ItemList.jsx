@@ -1,7 +1,9 @@
 import Item from "../Item/Item"
 import { useState, useEffect } from "react";
-const ItemList = ({products, img, loading}) => {
+
+const ItemList = ({products, routeImg, loading}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
+    
     const apiDolar = async() => {
         try{
             let response = await fetch("https://criptoya.com/api/dolar")
@@ -23,7 +25,7 @@ const ItemList = ({products, img, loading}) => {
                 <h1>Cargando...</h1>
             ) : (
                 products.map(product => (
-                <Item key={product.id} img={img} {...product} dolarPrice={dolarPrice} />  
+                <Item key={product.id} routeImg={routeImg} dolarPrice={dolarPrice} product={product} />  
                 ))
             )}
         </ul>

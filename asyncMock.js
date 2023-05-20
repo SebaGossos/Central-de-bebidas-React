@@ -1,16 +1,16 @@
 const imageProducts = {
-  bacardiImg: "./build/img/bacardi",
+  bacardiImg:[ {"value":1, "img":"./build/img/bacardi"}, {"value":2, "img":"./build/img/bacardi2"}, {"value":3, "img":"./build/img/bacardi3"}],
   cocaImg: "./build/img/coca",
   fernetImg: "./build/img/fernet",
   ganciaImg: "./build/img/gancia",
-  jackDanielsImg: "./build/img/jackDaniels",
+  jackDanielsImg: [ {"value":1, "img":"./build/img/jackDaniels"}, {"value":2, "img":"./build/img/jackDaniels2"} ],
   termaImg: "./build/img/terma",
   sky: "./build/img/sky",
-  absolut: "./build/img/absolute",
+  absolut: [ {"value":1, "img":"./build/img/absolute"}, {"value":2, "img":"./build/img/absolute2"} ],
   aguaEco: "./build/img/ecoDeLosAndes",
   speed: "./build/img/speed",
   sprite: "./build/img/sprite",
-  redBull: "./build/img/redBull",
+  redBull: [ {"value":1, "img":"./build/img/redBull"}, {"value":2, "img":"./build/img/redBull2"} ],
 };
 const {
   bacardiImg,

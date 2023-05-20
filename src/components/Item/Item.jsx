@@ -1,21 +1,32 @@
-import React, { useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { Link } from "react-router-dom";
-const Item = ({id, image, name, price, stock, img, dolarPrice}) => {
+import SelectImg from "../SelectImg/SelectImg";
+import ProdCantidad from "../ProdCantidad/ProdCantidad";
 
+
+const Item = ({product, routeImg, dolarPrice}) => {
+    const {id, image, name, price, stock} = product
     const finalPrice = useRef(null)
+    const [stockProd, setStockProd] = useState(() => {
+        // Si tengo una cantidad en mi carrito de compra de este producto, lo disminuyo en mi stock local.
+        const storedData = localStorage.getItem('productQuantitiesCart') ? JSON.parse(localStorage.getItem('productQuantitiesCart')) : {}
+        const quantityProduct = storedData[id] ? stock - storedData[id] : stock
+        return quantityProduct
+    })
+
 
     useEffect(() =>{
         let valor = Math.ceil(price * dolarPrice)
         finalPrice.current.textContent = `$ ${valor}`
     },[dolarPrice, price])
 
-    // ruta de la imagen dependiendo de la bebida
+    // ruta de la imagen dependiendo de la category (alcohol, sinAlcohol)
     let section = null
-    img === true
+    routeImg === true
         ? section = '.'
         : section = ''
     console.log('estoy pasando por item')
-
+    
     // nombre de clase dependiendo de la bebida
     let nameClass = null
     name === 'Coca Cola'
@@ -26,18 +37,12 @@ const Item = ({id, image, name, price, stock, img, dolarPrice}) => {
     return (
         <> 
             <li className={nameClass}>
-                <div className='card__imagen'> 
-                    <picture>
-                        <source srcSet={section + image + ".avif"} type="image/avif" />
-                        <source srcSet={section + image + ".webp"} type="image/webp" />
-                        <img loading="lazy" src={section + image + ".jpg"} width="" height="" alt="imagen bebida" />
-                    </picture>
-                </div>
+                <SelectImg image={image} routeImg={routeImg}/>
                 <h2 className='card__heading'>{name}</h2>
-                <p className='card__stock'>Stock: {stock} Unidades</p>
+                <p className='card__stock'>Stock: {stockProd} Unidades</p>
                 <p ref={finalPrice} className='card__price' />
                 <Link to={`/detail/${id}`} className="card__description">Descripción</Link>
-                <button className="card__boton">Agregar</button>
+                <ProdCantidad product={product} stockProd={stockProd} setStockProd={setStockProd} />
             </li> 
         </>
     );

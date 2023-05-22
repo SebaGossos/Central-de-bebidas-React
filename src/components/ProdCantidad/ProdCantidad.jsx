@@ -7,7 +7,6 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     const { productsCart, addToCart } = useCartContext()
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
 
-
     // Segun el localStorage devuelve al estado 0 o la cantidad que tiene el item especifico.
     const [cantidad, setCantidad] = useState(() => {
         const storedData = localStorage.getItem('productQuantities')
@@ -19,7 +18,6 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
         }
         return 0
     })
-
 
     // localStorage
     const pushLocalStorage = (keyName) => {
@@ -70,8 +68,6 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
         setCantidad(0)
     }
 
-
-
     return <>
         {cantidad === 0 ? (
             <button onClick={agregar} className="card__boton">
@@ -91,8 +87,7 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
                 Agregar al carrito
             </button>
         </>
-        )
-        }
+        )}
         {mostrarAgregar && <CartNotification text={"Se agregó al carrito"} setMostrarAgregar={setMostrarAgregar} />}
     </>
 

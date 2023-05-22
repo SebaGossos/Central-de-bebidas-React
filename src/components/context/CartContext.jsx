@@ -1,5 +1,5 @@
-import { useState, useContext, createContext } from "react";
-
+import { useState, useEffect, useContext, createContext } from "react";
+import { useProducts } from "./ProductsContext";
 
 export const CartContext = createContext([])
 
@@ -7,38 +7,53 @@ export const useCartContext = () => useContext(CartContext)
 
 
 export const CartProvider = ({children}) => {
+    const {products} = useProducts()
     const [productsCart, setProductCart] = useState([])
 
+    useEffect(() => {
+        if(localStorage.getItem('productQuantitiesCart')){
+            const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
+            let productsAdd = []
+
+            for(const id in storedData){
+                const product = products.find(item => item.id === parseInt(id))
+                if(product){
+                    productsAdd.push(product)
+                }
+            }
+            setProductCart(productsAdd)
+        }
+    }, [products])
+
+    // Obtener los productos del carrito
 
     // Guardar en el carrito
     const addToCart = (product, cantidad) => {
-        
-        const storedData = localStorage.getItem('productQuantitiesCart') ? JSON.parse(localStorage.getItem('productQuantitiesCart')) : false
-        if(!storedData){
-            localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
-        }else{
-            for(const id in storedData){
-                const productExist = productsCart.some(item => item.id === id)
-                console.log(productExist)
-            }
-        }
 
         // localStorage
-        storedData[product.id] = storedData[product.id] ? storedData[product.id] + cantidad: cantidad
-        localStorage.setItem('productQuantitiesCart', JSON.stringify(storedData))
-        
-        // Corroborar si el producto ya existe en el carrito
-        const productExist = productsCart.some(item => item.id === product.id)
-        
-        // Carrito
-        if(!productExist){
-            setProductCart([
-                ...productsCart,
-                product
-            ])
+        const storedData = localStorage.getItem('productQuantitiesCart') ? JSON.parse(localStorage.getItem('productQuantitiesCart')) : false
+
+        if(!storedData){
+            localStorage.setItem('productQuantitiesCart', JSON.stringify({[product.id] : cantidad}))
+        }else{
+            const existProduct = product.id in storedData   
+            existProduct ? storedData[product.id] = storedData[product.id] + cantidad: storedData[product.id] = cantidad
+            // Guardo o actualizo el carrito del localStorage
+            localStorage.setItem('productQuantitiesCart', JSON.stringify(storedData))
         }
+        
+        let productsAdd = []
+
+        for(const id in storedData){
+            productsAdd.push(products.find(item => item.id === parseInt(id)))
+        }
+        console.log(productsAdd)
+        // Carrito
+        setProductCart([
+            ...productsAdd
+        ])
+
     }
-    console.log(productsCart)
     // Eliminar del carrito
 
     

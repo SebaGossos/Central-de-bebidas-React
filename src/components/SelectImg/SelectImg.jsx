@@ -10,10 +10,11 @@ const SelectImg = ({image, routeImg=true}) => {
     }
 
     // ruta de la imagen dependiendo de la category (alcohol, sinAlcohol)
-    let section = routeImg === true ? '.' : '';
+    let section = routeImg ? '.' : '';
 
     // selecciona la imagen dependiendo de la opcion. Por defecto siempre selecciona la primera.
-    let imageOption = option !== 0 ? option : image[0].img;
+    let imageOption = option === 0 ? image[0].img  : option;
+
     return (
         <>
             {Array.isArray(image) ? ( 
@@ -34,7 +35,7 @@ const SelectImg = ({image, routeImg=true}) => {
                                         type="radio" 
                                         id={item.img} 
                                         className="options__radio" 
-                                        value={item.value}
+                                        value={item.img}
                                         checked={option === item.img}
                                         onChange={() => handleOption(item.img)} />
                                         

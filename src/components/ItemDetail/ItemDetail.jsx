@@ -6,7 +6,7 @@ const ItemDetail = ({id, image, name, description, stock}) => {
         if(Array.isArray(image)) {
             setSelectedImage(image[0].img);
         }
-    },[])
+    },[image])
     console.log(selectedImage)
 
     const handleOptionChange = (event) => {

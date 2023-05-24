@@ -9,7 +9,10 @@ export const useCartContext = () => useContext(CartContext)
 export const CartProvider = ({children}) => {
     const {products} = useProducts()
     const [productsCart, setProductCart] = useState([])
+    const [renderOptions, setRenderOptions] = useState(false)
+    const [cartPrice, setCartPrice] = useState(0)
 
+    // Obtener los productos del carrito
     useEffect(() => {
         if(localStorage.getItem('productQuantitiesCart')){
             const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
@@ -25,7 +28,6 @@ export const CartProvider = ({children}) => {
         }
     }, [products])
 
-    // Obtener los productos del carrito
 
     // Guardar en el carrito
     const addToCart = (product, cantidad) => {
@@ -55,12 +57,19 @@ export const CartProvider = ({children}) => {
 
     }
     // Eliminar del carrito
-
+    const removeFromCart = (product) => {
+        // localStorage
+        const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
+    }
     
     return(
         <CartContext.Provider value={{
             productsCart,
-            addToCart
+            addToCart,
+            renderOptions,
+            setRenderOptions,
+            cartPrice,
+            setCartPrice
         }}>
             {children}
         </CartContext.Provider>

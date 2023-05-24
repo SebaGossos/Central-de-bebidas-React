@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCartContext } from "../context/CartContext";
 import CartNotification from "../CartNotification/CartNotification";
 
+
 const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     const { stock, id } = product
     const { productsCart, addToCart } = useCartContext()
@@ -53,13 +54,8 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     }
 
     function eliminar() {
-        if (cantidad === 1) {
-            setCantidad((prevCantidad) => prevCantidad - 1)
-            setStockProd((prevStockProd) => (prevStockProd + 1))
-        } else {
-            setCantidad((prevCantidad) => prevCantidad - 1)
-            setStockProd((prevStockProd) => (prevStockProd + 1))
-        }
+        setCantidad((prevCantidad) => prevCantidad - 1)
+        setStockProd((prevStockProd) => (prevStockProd + 1))
     }
 
     function handleAgregarCart() {

@@ -60,6 +60,20 @@ export const CartProvider = ({children}) => {
     const removeFromCart = (product) => {
         // localStorage
         const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
+        delete storedData[product.id]
+        localStorage.setItem('productQuantitiesCart', JSON.stringify(storedData))
+
+        let productsAdd = []
+
+        for(const id in storedData){
+            productsAdd.push(products.find(item => item.id === parseInt(id)))
+        }
+        console.log(productsAdd)
+        // Carrito
+        setProductCart([
+            ...productsAdd
+        ])
+
     }
     
     return(
@@ -69,7 +83,8 @@ export const CartProvider = ({children}) => {
             renderOptions,
             setRenderOptions,
             cartPrice,
-            setCartPrice
+            setCartPrice,
+            removeFromCart
         }}>
             {children}
         </CartContext.Provider>

@@ -8,20 +8,18 @@ import { useCartContext } from "../context/CartContext"
 
 
 const CartItem = ({product, dolarPrice}) => {
-    const {setCartPrice} = useCartContext()
+
     const {id, image, name , price, stock} = product
     const finalPrice = useRef(null)
-
-    const [stockProd, setStockProd] = useState(() => {
-        // Disminuyo en mi stock local.
-        const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
-        return stock - storedData[id]
+    const [stockProd, setStockProd] = useState(stock)
+    const [cantidad, setCantidad] = useState(() => {
+        const productQuantities = JSON.parse(localStorage.getItem('productQuantitiesCart'))
+        return productQuantities[id]
     })
 
+    let valor = Math.ceil(price * dolarPrice)
+    
     useEffect(() =>{
-        let valor = Math.ceil(price * dolarPrice)
-        let cantidad = stock - stockProd
-        setCartPrice((prev) => prev + (valor * cantidad))
         finalPrice.current.textContent = `$ ${valor}`
     },[dolarPrice, price, stockProd])
 
@@ -31,7 +29,6 @@ const CartItem = ({product, dolarPrice}) => {
         ? nameClass = 'card--coca'
         : nameClass = 'card'
 
-
     return (
         <> 
             <li className={nameClass}>
@@ -40,7 +37,7 @@ const CartItem = ({product, dolarPrice}) => {
                 <p className='card__stock'>Stock: {stockProd} Unidades</p>
                 <p ref={finalPrice} className='card__price' />
                 <Link to={`/detail/${id}`} className="card__description">Descripción</Link>
-                <CartProdCant product={product} stockProd={stockProd} setStockProd={setStockProd} />
+                <CartProdCant valor={valor} cantidad={cantidad} setCantidad={setCantidad} product={product} stockProd={stockProd} setStockProd={setStockProd} />
             </li> 
         </>
     )

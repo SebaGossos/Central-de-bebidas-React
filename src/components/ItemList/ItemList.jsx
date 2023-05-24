@@ -2,11 +2,10 @@ import CartItem from "../CartItem/CartItem";
 import Item from "../Item/Item"
 import { useState, useEffect } from "react";
 import { useCartContext } from "../context/CartContext";
-import { render } from "react-dom";
 
 const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
-    const {cartPrice} = useCartContext()
+    const {cartPrice, setProductCart} = useCartContext()
     
     const apiDolar = async() => {
         try{
@@ -35,6 +34,11 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
         return <Item key={product.id} routeImg={routeImg} dolarPrice={dolarPrice} product={product} />
     }
 
+    const handleBuyer = (e) => {
+        localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
+        setProductCart([])
+    }
+
     return (
         <>
             <ul className="contenedor seccion cards">
@@ -46,7 +50,12 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                     ))
                 )}
             </ul>
-            {renderOptions && <h2>Total a pagar: ${cartPrice}</h2>}
+            {renderOptions && 
+                <div>
+                    <h2>Total a pagar: ${cartPrice}</h2>
+                    <button onClick={handleBuyer}>Comprar</button>
+                </div>                
+            }
         </>
     )
 }

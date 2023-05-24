@@ -34,7 +34,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const renderItemList = (product) => {
         return <Item key={product.id} routeImg={routeImg} dolarPrice={dolarPrice} product={product} />
     }
-    console.log(renderOptions)
+
     return (
         <>
             <ul className="contenedor seccion cards">

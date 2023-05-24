@@ -24,8 +24,14 @@ const CartProdCant = ({ product, stockProd, setStockProd, cantidad, valor, setCa
     useEffect(() => {
         const productQuantities = JSON.parse(localStorage.getItem('productQuantitiesCart'))
         setStockProd((prevStockProd) => prevStockProd - productQuantities[id] || prevStockProd)
-        setCartPrice((prev) => prev + (valor * productQuantities[id]) || prev)
+
     },[])
+    
+    useEffect(() => {
+        const productQuantities = JSON.parse(localStorage.getItem('productQuantitiesCart'))
+        setCartPrice((prev) => prev + (valor * productQuantities[id]) || prev)
+        console.log('jlsdhfkjlasdh')
+    },[valor])
 
     function agregar() {
         if (stockProd < 1) {
@@ -51,7 +57,7 @@ const CartProdCant = ({ product, stockProd, setStockProd, cantidad, valor, setCa
     }
 
     function handleEliminarCart() {
-        setCartPrice((prev) => prev - valor)
+        setCartPrice((prev) => prev - (valor * cantidad))
         removeFromCart(product)
         // setCantidad(0)
     }

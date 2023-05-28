@@ -66,7 +66,7 @@ export const CartProvider = ({children}) => {
         let productsAdd = []
 
         for(const id in storedData){
-            productsAdd.push(products.find(item => item.id === parseInt(id)))
+            productsAdd.push(products.find(item => item.id === id))
         }
         console.log(productsAdd)
         // Carrito

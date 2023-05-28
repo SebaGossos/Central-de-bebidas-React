@@ -1,23 +1,35 @@
 import { useState, useEffect } from "react"
 import ItemDetail from "../ItemDetail/ItemDetail"
-import { getProductId } from "../../../asyncMock"
 import { useParams } from "react-router-dom"
 import { useProducts } from "../context/ProductsContext"
+import { doc, getDoc, getFirestore } from 'firebase/firestore'
+
 const ItemDetailContainer = () => {
   const {products, loading} = useProducts()
-  const {pid, category} = useParams()
+  const {pid} = useParams()
   const [product, setProduct] = useState({})
 
-  const getProduct = (pid) => {
-    const numberPid = parseInt(pid)
-    const productId = !loading ? products.find(product => product.id === numberPid) : {}
+  const getProduct = () => {
+    const productId = !loading ?  products.find(product => product.id === pid) : {}
     setProduct(productId)
-
   }
 
   useEffect(() => {
-    getProduct(pid)
+    getProduct()
   },[products])
+
+  // Llamar al Firestore para extraer un producto
+  
+/*   useEffect(() => {
+    const dbFirestore = getFirestore()
+    const queryDoc = doc(dbFirestore, 'products', pid)
+
+    getDoc(queryDoc)
+      .then(res => setProduct({id: res.id , ...res.data()}))
+      .catch(err => console.error(err))
+      .finally(() => console.log('finalizado'))
+  },[]) */
+
 
     return (
     <div className="contenedor">

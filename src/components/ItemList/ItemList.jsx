@@ -8,6 +8,7 @@ import CartNotification from "../CartNotification/CartNotification";
 const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
     const [renderElements, setRenderElements] = useState(null)
+    const [mostrarAgregar, setMostrarAgregar] = useState(false)
     const {cartPrice, setCartPrice, setRenderOptions, setProductCart} = useCartContext()
     
     const apiDolar = async() => {
@@ -67,7 +68,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                 <Link to="/" className="finalizar__boton">Volver al menu</Link>
             </div>
         )
-        // CartNotification(text="Compra realizada con exito")
+        setMostrarAgregar(true)
     }
 
     return (
@@ -82,6 +83,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                 )}
             </ul>
             {renderOptions && renderElements}
+            {mostrarAgregar && <CartNotification text={"Compra realizada con exito!"} setMostrarAgregar={setMostrarAgregar} />}
         </>
     )
 }

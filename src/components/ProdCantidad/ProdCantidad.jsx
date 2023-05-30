@@ -4,7 +4,7 @@ import CartNotification from "../CartNotification/CartNotification";
 
 
 const ProdCantidad = ({ product, stockProd, setStockProd }) => {
-    const { stock, id } = product
+    const { stock, id, name } = product
     const { productsCart, addToCart } = useCartContext()
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
 
@@ -42,8 +42,8 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     useEffect(() => {
         const productQuantities = JSON.parse(localStorage.getItem('productQuantities'))
         setStockProd((prevStockProd) => prevStockProd - productQuantities[id] || prevStockProd)
-    },[])
-    
+    }, [])
+
     function agregar() {
         if (stockProd < 1) {
             alert('No hay mas stock')
@@ -84,7 +84,7 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
             </button>
         </>
         )}
-        {mostrarAgregar && <CartNotification text={"Se agregó al carrito"} setMostrarAgregar={setMostrarAgregar} />}
+        {mostrarAgregar && <CartNotification text={"Se agregó " + name + " al carrito"} setMostrarAgregar={setMostrarAgregar} />}
     </>
 
 }

@@ -14,7 +14,6 @@ const CartNotification = ({text='', setMostrarAgregar}) => {
       progress: undefined,
       className: "custom-toast", // Clase personalizada para el estilo
     });
-    setMostrarAgregar(false)
   }, []);
 
   return (

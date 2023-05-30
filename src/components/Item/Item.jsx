@@ -1,13 +1,13 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SelectImg from "../SelectImg/SelectImg";
 import ProdCantidad from "../ProdCantidad/ProdCantidad";
 
 
-const Item = ({product, routeImg, dolarPrice}) => {
-    const {id, image, name, price, stock} = product
+const Item = ({ product, routeImg, dolarPrice }) => {
+    const { id, image, name, price, stock } = product
     const finalPrice = useRef(null)
-    
+
     const [stockProd, setStockProd] = useState(() => {
         // Si tengo una cantidad en mi carrito de compra de este producto, lo disminuyo en mi stock local.
         const storedData = localStorage.getItem('productQuantitiesCart') ? JSON.parse(localStorage.getItem('productQuantitiesCart')) : {}
@@ -16,12 +16,12 @@ const Item = ({product, routeImg, dolarPrice}) => {
     })
 
 
-    useEffect(() =>{
+    useEffect(() => {
         let valor = Math.ceil(price * dolarPrice)
         finalPrice.current.textContent = `$ ${valor}`
-    },[dolarPrice, price])
+    }, [dolarPrice, price])
 
-    
+
     // nombre de clase dependiendo de la bebida
     let nameClass = null
     name === 'Coca Cola'
@@ -30,15 +30,15 @@ const Item = ({product, routeImg, dolarPrice}) => {
 
 
     return (
-        <> 
+        <>
             <li className={nameClass}>
-                <SelectImg image={image} routeImg={routeImg}/>
+                <SelectImg image={image} routeImg={routeImg} />
                 <h2 className='card__heading'>{name}</h2>
                 <p className='card__stock'>Stock: {stockProd} Unidades</p>
                 <p ref={finalPrice} className='card__price' />
                 <Link to={`/detail/${id}`} className="card__description">Descripción</Link>
                 <ProdCantidad product={product} stockProd={stockProd} setStockProd={setStockProd} />
-            </li> 
+            </li>
         </>
     );
 }

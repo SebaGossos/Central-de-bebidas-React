@@ -1,11 +1,14 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
 import Item from "../Item/Item"
-import { useState, useEffect } from "react";
 import { useCartContext } from "../context/CartContext";
+import CartNotification from "../CartNotification/CartNotification";
 
 const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
-    const {cartPrice, setProductCart} = useCartContext()
+    const [renderElements, setRenderElements] = useState(null)
+    const {cartPrice, setCartPrice, setRenderOptions, setProductCart} = useCartContext()
     
     const apiDolar = async() => {
         try{
@@ -21,7 +24,27 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
             console.log(error)
         }
     }
-    console.log('estoy pasando por itemList')
+    console.log('estoy pasando por itemList', cartPrice)
+
+    // si no tengo productos en mi carrito, no muestro la seccion de comprar
+    
+    useEffect(() => {
+        if(!products.length){
+            setRenderElements(
+                <div className="contenedor finalizar">
+                    <h2 className="finalizar__titulo">Carrito vacio</h2>
+                    <Link to="/" className="finalizar__boton">Volver al menu</Link>
+                </div>
+            )
+        }else{
+            setRenderElements(
+                <div className="contenedor finalizar">
+                    <h2 className="finalizar__titulo">Total a pagar: ${cartPrice}</h2>
+                    <button className="finalizar__boton" onClick={handleBuyer}>Comprar</button>
+                </div>
+            )
+        }              
+    },[renderOptions, cartPrice])
 
     useEffect(() => {
         apiDolar() 
@@ -37,6 +60,14 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const handleBuyer = (e) => {
         localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
         setProductCart([])
+        setCartPrice(0)
+        setRenderElements(
+            <div className="contenedor finalizar">
+                <h2 className="finalizar__titulo">Carrito vacio</h2>
+                <Link to="/" className="finalizar__boton">Volver al menu</Link>
+            </div>
+        )
+        // CartNotification(text="Compra realizada con exito")
     }
 
     return (
@@ -50,12 +81,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                     ))
                 )}
             </ul>
-            {renderOptions && 
-                <div>
-                    <h2>Total a pagar: ${cartPrice}</h2>
-                    <button onClick={handleBuyer}>Comprar</button>
-                </div>                
-            }
+            {renderOptions && renderElements}
         </>
     )
 }

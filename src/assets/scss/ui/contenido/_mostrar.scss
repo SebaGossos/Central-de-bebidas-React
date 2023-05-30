@@ -34,3 +34,23 @@
     }
 
 }
+
+.finalizar{
+    display: flex;
+    justify-content: space-around;
+
+    &__titulo{
+        
+    }
+    &__boton{
+        @include m.boton(v.$secundario, v.$blanco);
+        padding: 1rem 2rem; 
+        transition-property: background-color transform;
+        transition-duration: .3s;
+        
+        &:hover{
+            background-color: v.$primario;
+            transform: scale(1.1);
+        }
+    }
+}

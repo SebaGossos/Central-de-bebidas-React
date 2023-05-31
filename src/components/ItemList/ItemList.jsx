@@ -41,6 +41,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
             setRenderElements(
                 <div className="contenedor finalizar">
                     <h2 className="finalizar__titulo">Total a pagar: ${cartPrice}</h2>
+                    <button className="finalizar__boton" onClick={handleVoid}>Vaciar Carrito</button>
                     <button className="finalizar__boton" onClick={handleBuyer}>Comprar</button>
                 </div>
             )
@@ -58,6 +59,17 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
         return <Item key={product.id} routeImg={routeImg} dolarPrice={dolarPrice} product={product} />
     }
 
+    const handleVoid = (e) => {
+        localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
+        setProductCart([])
+        setCartPrice(0)
+        setRenderElements(
+            <div className="contenedor finalizar">
+                <h2 className="finalizar__titulo">Carrito vacio</h2>
+                <Link to="/" className="finalizar__boton">Volver al menu</Link>
+            </div>
+        )
+    }
     const handleBuyer = (e) => {
         localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
         setProductCart([])

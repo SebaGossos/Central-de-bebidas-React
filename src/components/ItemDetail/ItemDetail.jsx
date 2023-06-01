@@ -1,20 +1,30 @@
 import { useEffect, useState } from "react";
-const ItemDetail = ({id, image, name, description, stock}) => {
+import ProdCantidad from "../ProdCantidad/ProdCantidad";
+const ItemDetail = ({product}) => {
+    const {id, image, name, description, stock} = product
     const [selectedImage, setSelectedImage] = useState(null)
+    
+    const [stockProd, setStockProd] = useState(() => {
+        // Si tengo una cantidad en mi carrito de compra de este producto, lo disminuyo en mi stock local.
+        const storedData = localStorage.getItem('productQuantitiesCart') ? JSON.parse(localStorage.getItem('productQuantitiesCart')) : {}
+        const quantityProduct = storedData[id] ? stock - storedData[id] : stock
+        return quantityProduct
+    })
 
     useEffect(() => {
         if(Array.isArray(image)) {
             setSelectedImage(image[0].img);
         }
+        
     },[image])
-    console.log(selectedImage)
 
+    console.log(stockProd)
     const handleOptionChange = (event) => {
         setSelectedImage(event.target.value)
     }
 
     const renderImage = (imageUrl) => (
-        <div className="card__imagen">
+        <div className="card__imagen card__imagen--detail">
             <picture>
                 <source srcSet={`.${imageUrl}.avif`} type="image/avif" />
                 <source srcSet={`.${imageUrl}.webp`} type="image/webp" />
@@ -41,7 +51,6 @@ const ItemDetail = ({id, image, name, description, stock}) => {
         </div>
     )
 
-
     return (
         <li className="card--coca">
             {Array.isArray(image) ? (
@@ -52,8 +61,15 @@ const ItemDetail = ({id, image, name, description, stock}) => {
             ) : (
                 <div>{renderImage(image)}</div>
             )}
-            <h2 className="card__heading">{name}</h2>
-            <p className="card__stock">Stock: {stock} Unidades</p>
+            <div className="card__container">
+                <div className="card__container--text">
+                    <h2 className="card__heading">{name}</h2>
+                    <p className="card__stock">Stock: {stock} Unidades</p>
+                </div>
+                <div className="card__container--price">
+                    <ProdCantidad product={product} stockProd={stockProd} setStockProd={setStockProd}/>
+                </div>
+            </div>
             <p>{description}</p>
         </li>
       )

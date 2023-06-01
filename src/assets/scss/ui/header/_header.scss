@@ -10,11 +10,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: v.$separacion;
     @include m.desktop {
         flex-direction: row;
         justify-content: space-between;
         height: 20rem;
         margin-bottom: v.$separacion;
+    } 
+    &__registro{
+        display: flex;
+        justify-content: center;
     }
     &--registrar{
         flex-direction: column;
@@ -48,11 +53,17 @@
     flex-direction: column-reverse;
     justify-content: space-between;
     align-items: center;
-    gap: v.$separacion * 2;
+    gap: v.$separacion - 3rem;
     @include m.desktop {
         flex-direction: row;
     }
+    &__cuenta{
+        height: 10rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
+    }
     &__inicioSesion{
         color: v.$cuarto;
         font-size: 3.5rem;
@@ -106,13 +117,14 @@
     }
     &__deactive{
         color: v.$cuarto;
+        justify-content: center;
     }
     &__carrito{
         font-size: 3rem;
+        width: 6.66rem;
     }
 }
 .formulario{
-
 
     &__inicio{
         display: flex;
@@ -121,19 +133,19 @@
         gap: v.$separacion;
         @include m.desktop{
             flex-direction: row; 
-            gap: 3rem;
+            gap: 2rem;
         }
     }
+    &__contenedor{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     &__campo{
-        display: grid;
-        grid-template-columns: auto;
-        justify-items: center;
-        gap: 2rem;
-        align-items: center;
-        @include m.desktop {
-            grid-template-columns: repeat(2, auto);
-            gap: 1rem;
-        }
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
     }
     &__label{
         color: v.$primario;

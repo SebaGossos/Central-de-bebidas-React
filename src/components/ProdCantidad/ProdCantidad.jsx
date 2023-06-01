@@ -63,11 +63,11 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
         setMostrarAgregar(true)
         setCantidad(0)
     }
-
+    
     return <>
         {cantidad === 0 ? (
             <button onClick={agregar} className="card__boton">
-                Agregar
+                Añadir
             </button>
         ) : (<>
             <div className="mostrar">

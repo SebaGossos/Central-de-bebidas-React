@@ -6,7 +6,7 @@ import { useCartContext } from "../context/CartContext";
 const ItemListContainer = () => {
     const [routeImg, setRouteImg] = useState(false)
     const { category } = useParams()
-    const { products, loading } = useProducts()
+    const { products, loading, setMenu } = useProducts()
     const [productsCategory, setProductsCategory] = useState(products)
     const { renderOptions, setRenderOptions } = useCartContext()
 
@@ -24,7 +24,7 @@ const ItemListContainer = () => {
         }
         setRenderOptions(false)
     }
-
+    useEffect(() => setMenu(false),[]) 
     useEffect(() => {
         getProductsCategory()
     }, [category, products])

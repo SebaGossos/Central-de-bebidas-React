@@ -17,6 +17,11 @@
     flex-direction: column;
     justify-content: space-between;
 
+    &__imagen{
+        &--detail{
+            margin: 0 0 v.$separacion;
+        }
+    }
     &__heading{
         font-weight: 400;
         margin-bottom: 1rem;
@@ -77,7 +82,19 @@
             margin: 0 auto;
         } 
     }
+    &__container{
+        display: flex;
+        justify-content: space-around;
+        &--text{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        &--price{
 
+        }
+    }
+   
 }
 
 

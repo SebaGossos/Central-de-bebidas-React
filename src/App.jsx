@@ -9,6 +9,7 @@ import { CartProvider } from './components/context/CartContext'
 import { ProductsProvider } from './components/context/ProductsContext'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Register from './components/Register/Register'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path='/' element={<ItemListContainer />} />
+            <Route path='/register' element={<Register />}/>
             <Route path='/category/:category' element={<ItemListContainer />} />
             <Route path='/detail/:pid' element={<ItemDetailContainer />} />
             <Route path='/cart' element={<CartContainer />} />

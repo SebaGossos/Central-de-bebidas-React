@@ -25,10 +25,13 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
             console.log(error)
         }
     }
+    useEffect(() => {
+        apiDolar() 
+    },[dolarPrice])
+    
     console.log('estoy pasando por itemList', cartPrice)
 
     // si no tengo productos en mi carrito, no muestro la seccion de comprar
-    
     useEffect(() => {
         if(!products.length){
             setRenderElements(
@@ -48,9 +51,6 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
         }              
     },[renderOptions, cartPrice])
 
-    useEffect(() => {
-        apiDolar() 
-    },[dolarPrice])
 
     const renderCart = (product) => {
         return <CartItem key={product.id} product={product} dolarPrice={dolarPrice} />

@@ -9,6 +9,7 @@ export const useProducts = () => useContext(ProductsContext)
 export const ProductsProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState([])
+    const [menu, setMenu] = useState(false)
 
     const getPoductsFireBase = async () => {
         try{
@@ -23,8 +24,7 @@ export const ProductsProvider = ({children}) => {
     }
     useEffect(() => {
         getPoductsFireBase()
-        console.log(products)
-    },[])
+    },[products])
 
 /*     const getPoductsLocalStorage = async () => {
         try{
@@ -42,7 +42,9 @@ export const ProductsProvider = ({children}) => {
     return (
         <ProductsContext.Provider value={{
             products,
-            loading
+            loading,
+            menu,
+            setMenu
         }}>
             {children}
         </ProductsContext.Provider>

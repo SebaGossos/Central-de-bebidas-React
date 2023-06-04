@@ -17,9 +17,11 @@ export const UsersProvider = ({children}) => {
                 let usersEmpty = Object.keys(users).length === 0
 
                 if(response.empty && !usersEmpty){
+                    alert('se añadio el usuario')
                     return addDoc(userCollection, users)
                 }
                 if(!response.empty && !usersEmpty){
+                    alert('se añadio el usuarioo')
                     return addDoc(userCollection, users)
                 }
             })

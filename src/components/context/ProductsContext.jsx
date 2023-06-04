@@ -24,7 +24,7 @@ export const ProductsProvider = ({children}) => {
     }
     useEffect(() => {
         getPoductsFireBase()
-    },[products])
+    },[])
 
 /*     const getPoductsLocalStorage = async () => {
         try{

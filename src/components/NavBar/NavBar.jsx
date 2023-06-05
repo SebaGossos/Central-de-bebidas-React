@@ -3,21 +3,62 @@ import CartWidget from "../CartWidget/CartWidget"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useProducts } from "../context/ProductsContext"
+import { useUsers } from "../context/UsersContext"
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
 export function NavBar() {
     const { category} = useParams()
     const [inicioSesion, setInicioSesion] = useState(false)
     const [logoCentral, setLogoCentral] = useState("./build/img/central")
     const {menu} = useProducts()
+    const {isAnUser, setIsAnUser, user, setUser} = useUsers()
+    
 
     useEffect(() => {
         setLogoCentral("../build/img/central")
         console.log(menu)
     }, [category])
 
+    const callUserDb = async (user, key) => {
+        const dbFireStore = getFirestore()
+        const userCollection = collection(dbFireStore, 'users')
+        const queryRef = query(userCollection, where('email', '==', user), where('contrasena', '==', key))
+
+        try{
+            const querySnapshot = await getDocs(queryRef)
+
+            if(!querySnapshot.empty){
+                alert("Bienvenido")
+                setUser(querySnapshot.docs[0].data())
+                return true
+            }
+            if(querySnapshot.empty){
+                alert("Usuario y/o contraseña incorrecto")
+                return false
+            }
+        }catch(err){
+            console.error(err)
+            return false
+        }
+    }
+
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+
+        const usuario = e.target.usuario.value
+        const contrasena = e.target.contrasena.value
+
+        callUserDb(usuario, contrasena)
+        .then(res => {
+            console.log(res)
+            setIsAnUser(res)
+        })
+    }
+
     const handleInicioSesion = () => {
-        if (inicioSesion) {
+        if (inicioSesion && !isAnUser) {
             return (
-                <form className="formulario__inicio">
+                <form onSubmit={handleLogin} className="formulario__inicio">
                     <div className="formulario__contenedor">
                         <div className="formulario__campo">
                             <label htmlFor="usuario" className="formulario__label">Usuario</label>
@@ -28,10 +69,12 @@ export function NavBar() {
                             <input id="contrasena" className="formulario__input" placeholder="Coloque su contraseña" type="password" />
                         </div>
                     </div>
-                    <button className="formulario__boton">Iniciar Sesión</button>
+                    <input className="formulario__boton" type="submit" value="Iniciar Sesión" />
                 </form>
             )
-        } else {
+        } else if(isAnUser){
+            return <h2 className="registro__user">{`Bienvenido ${user.nombre}`}</h2>
+        }else{
             return (
                 <div className="registro__cuenta">
                     <Link to='/register' className="registro__crearCuenta">Registrarse</Link>
@@ -44,7 +87,7 @@ export function NavBar() {
     return (
         <header className={ menu ? 'contenedor header__registro' : 'contenedor header' }>
             <div className="header__logo">
-                <Link to="/">
+                <Link onClick={() => setInicioSesion(false)} to="/">
                     <picture>
                         <source srcSet={logoCentral + ".avif"} type="image/avif" />
                         <source srcSet={logoCentral + ".webp"} type="image/webp" />

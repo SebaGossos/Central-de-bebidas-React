@@ -30,7 +30,6 @@ const CartProdCant = ({ product, stockProd, setStockProd, cantidad, valor, setCa
     useEffect(() => {
         const productQuantities = JSON.parse(localStorage.getItem('productQuantitiesCart'))
         setCartPrice((prev) => prev + (valor * productQuantities[id]) || prev)
-        console.log('jlsdhfkjlasdh')
     },[valor])
 
     function agregar() {

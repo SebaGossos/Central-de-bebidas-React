@@ -67,12 +67,12 @@ const Register = () => {
                         <input className="registrar__input" type="text" id="nombre" name="nombre" placeholder="Tu Nombre" />
                     </div>
                     <div className="registrar__campo">
-                        <label className="registrar__label" htmlFor="contrasena">Contraseña</label>
-                        <input className="registrar__input" type="password" id="contrasena" name="contrasena" placeholder="Tu Contraseña" />
-                    </div>
-                    <div className="registrar__campo">
                         <label className="registrar__label" htmlFor="email">Email</label>
                         <input className="registrar__input" type="email" id="email" name="email" placeholder="Tu Email" />
+                    </div>
+                    <div className="registrar__campo">
+                        <label className="registrar__label" htmlFor="contrasena">Contraseña</label>
+                        <input className="registrar__input" type="password" id="contrasena" name="contrasena" placeholder="Tu Contraseña" />
                     </div>
 
                     <div className="registrar__campo">

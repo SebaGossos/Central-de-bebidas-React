@@ -4,12 +4,14 @@ import CartItem from "../CartItem/CartItem";
 import Item from "../Item/Item"
 import { useCartContext } from "../context/CartContext";
 import CartNotification from "../CartNotification/CartNotification";
+import { useUsers } from "../context/UsersContext";
 
 const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
     const [renderElements, setRenderElements] = useState(null)
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
     const {cartPrice, setCartPrice, setRenderOptions, setProductCart} = useCartContext()
+    const {isAnUser, user} = useUsers()
     
     const apiDolar = async() => {
         try{
@@ -28,8 +30,6 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     useEffect(() => {
         apiDolar() 
     },[dolarPrice])
-    
-    console.log('estoy pasando por itemList', cartPrice)
 
     // si no tengo productos en mi carrito, no muestro la seccion de comprar
     useEffect(() => {
@@ -48,8 +48,8 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                     <button className="finalizar__boton" onClick={handleBuyer}>Comprar</button>
                 </div>
             )
-        }              
-    },[renderOptions, cartPrice])
+        }
+    },[renderOptions, cartPrice, isAnUser])
 
 
     const renderCart = (product) => {
@@ -71,16 +71,21 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
         )
     }
     const handleBuyer = (e) => {
-        localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
-        setProductCart([])
-        setCartPrice(0)
-        setRenderElements(
-            <div className="contenedor finalizar">
-                <h2 className="finalizar__titulo">Carrito vacio</h2>
-                <Link to="/" className="finalizar__boton">Volver al menu</Link>
-            </div>
-        )
-        setMostrarAgregar(true)
+        console.log(isAnUser)
+        if(isAnUser){
+            localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
+            setProductCart([])
+            setCartPrice(0)
+            setRenderElements(
+                <div className="contenedor finalizar">
+                    <h2 className="finalizar__titulo">Carrito vacio</h2>
+                    <Link to="/" className="finalizar__boton">Volver al menu</Link>
+                </div>
+            )
+            setMostrarAgregar(true)
+        }else{
+            alert('Debes iniciar sesion para realizar una compra')
+        }
     }
 
     return (

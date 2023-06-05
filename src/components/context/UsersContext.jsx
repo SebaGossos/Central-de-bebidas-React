@@ -6,8 +6,9 @@ export const UsersContext = createContext()
 export const useUsers = () => useContext(UsersContext)
 
 export const UsersProvider = ({children}) => {
-
     const [users, setUsers] = useState({})
+    const [user, setUser] = useState([])
+    const [isAnUser, setIsAnUser] = useState(false)
     
     useEffect(() => {
         const dbFireStore = getFirestore()
@@ -36,6 +37,10 @@ export const UsersProvider = ({children}) => {
         <UsersContext.Provider value={{
             users,
             setUsers,
+            user,
+            setUser,
+            isAnUser,
+            setIsAnUser
 
         }}>
             {children}

@@ -27,7 +27,6 @@ export function NavBar() {
             const querySnapshot = await getDocs(queryRef)
 
             if(!querySnapshot.empty){
-                alert("Bienvenido")
                 setUser(querySnapshot.docs[0].data())
                 return true
             }

@@ -34,7 +34,6 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
             const updateData = JSON.stringify(productQuantities)
             localStorage.setItem(keyName, updateData)
         }
-
     }
     useEffect(() => {
         pushLocalStorage('productQuantities')

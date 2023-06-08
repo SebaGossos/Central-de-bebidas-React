@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect, createContext } from "react";
-import { getProducts } from "../../../asyncMock";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { getFirestore, getDocs, doc, updateDoc, collection, writeBatch } from "firebase/firestore";
 
 
 export const ProductsContext = createContext()
@@ -26,18 +25,10 @@ export const ProductsProvider = ({children}) => {
         getPoductsFireBase()
     },[])
 
-/*     const getPoductsLocalStorage = async () => {
-        try{
-            const response = await getProducts()
-            setProducts(response)
-            setLoading(false)
-        }catch(error){
-            console.error(error)
-        }
+    const updateProducts = (id) => {
+        
+    
     }
-    useEffect(() => {
-        getPoductsLocalStorage()
-    },[]) */
 
     return (
         <ProductsContext.Provider value={{

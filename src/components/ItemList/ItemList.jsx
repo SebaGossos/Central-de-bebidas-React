@@ -5,13 +5,15 @@ import Item from "../Item/Item"
 import { useCartContext } from "../context/CartContext";
 import CartNotification from "../CartNotification/CartNotification";
 import { useUsers } from "../context/UsersContext";
+import { useOrders } from "../context/OrdersContext";
 
 const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [dolarPrice, setDolarPrice] = useState(0)
     const [renderElements, setRenderElements] = useState(null)
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
-    const {cartPrice, setCartPrice, setRenderOptions, setProductCart} = useCartContext()
+    const {cartPrice, setCartPrice, setRenderOptions, setProductsCart} = useCartContext()
     const {isAnUser, user} = useUsers()
+    const { finalizarOrden } = useOrders()
     
     const apiDolar = async() => {
         try{
@@ -61,7 +63,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
 
     const handleVoid = (e) => {
         localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
-        setProductCart([])
+        setProductsCart([])
         setCartPrice(0)
         setRenderElements(
             <div className="contenedor finalizar">
@@ -73,8 +75,9 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const handleBuyer = (e) => {
         console.log(isAnUser)
         if(isAnUser){
+            finalizarOrden()
             localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
-            setProductCart([])
+            setProductsCart([])
             setCartPrice(0)
             setRenderElements(
                 <div className="contenedor finalizar">

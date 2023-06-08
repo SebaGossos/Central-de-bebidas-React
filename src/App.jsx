@@ -11,6 +11,7 @@ import { UsersProvider } from './components/context/UsersContext'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from './components/Register/Register'
+import { OrdersProvider } from './components/context/OrdersContext'
 
 function App() {
 
@@ -18,19 +19,21 @@ function App() {
     <ProductsProvider>
       <CartProvider>
         <UsersProvider>
-          <BrowserRouter>
-            <NavBar />
-            <Routes>
-              <Route path='/' element={<ItemListContainer />} />
-              <Route path='/register' element={<Register />}/>
-              <Route path='/category/:category' element={<ItemListContainer />} />
-              <Route path='/detail/:pid' element={<ItemDetailContainer />} />
-              <Route path='/cart' element={<CartContainer />} />
-              <Route path='*' element={<Navigate to="/" />} />
-            </Routes>
-            <Footer />
-          </BrowserRouter>
-          <ToastContainer />
+          <OrdersProvider>
+            <BrowserRouter>
+              <NavBar />
+              <Routes>
+                <Route path='/' element={<ItemListContainer />} />
+                <Route path='/register' element={<Register />}/>
+                <Route path='/category/:category' element={<ItemListContainer />} />
+                <Route path='/detail/:pid' element={<ItemDetailContainer />} />
+                <Route path='/cart' element={<CartContainer />} />
+                <Route path='*' element={<Navigate to="/" />} />
+              </Routes>
+              <Footer />
+            </BrowserRouter>
+            <ToastContainer />
+          </OrdersProvider>
         </UsersProvider>
       </CartProvider>
     </ProductsProvider>

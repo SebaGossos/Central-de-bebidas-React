@@ -8,7 +8,7 @@ export const useCartContext = () => useContext(CartContext)
 
 export const CartProvider = ({children}) => {
     const {products} = useProducts()
-    const [productsCart, setProductCart] = useState([])
+    const [productsCart, setProductsCart] = useState([])
     const [renderOptions, setRenderOptions] = useState(false)
     const [cartPrice, setCartPrice] = useState(0)
 
@@ -24,7 +24,7 @@ export const CartProvider = ({children}) => {
                     productsAdd.push(product)
                 }
             }
-            setProductCart(productsAdd)
+            setProductsCart(productsAdd)
         }
     }, [products])
 
@@ -51,10 +51,9 @@ export const CartProvider = ({children}) => {
         }
         console.log(productsAdd)
         // Carrito
-        setProductCart([
+        setProductsCart([
             ...productsAdd
         ])
-
     }
     // Eliminar del carrito
     const removeFromCart = (product) => {
@@ -70,17 +69,16 @@ export const CartProvider = ({children}) => {
         }
         console.log(productsAdd)
         // Carrito
-        setProductCart([
+        setProductsCart([
             ...productsAdd
         ])
-
     }
     
     return(
         <CartContext.Provider value={{
             productsCart,
             addToCart,
-            setProductCart,
+            setProductsCart,
             renderOptions,
             setRenderOptions,
             cartPrice,

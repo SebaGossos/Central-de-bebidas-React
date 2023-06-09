@@ -18,11 +18,27 @@ const Register = () => {
         return ano >= 18;
     }
     async function validateForm(data) {
+
+        const email = data.email.value
+        const email2 = data.email2.value
+        if (email !== email2) {
+            alert('Los emails no coinciden')
+            return false
+        }
+
+        const contrasena = data.contrasena.value
+        if(contrasena.length < 6) {
+            alert('La contraseña debe tener al menos 8 caracteres')
+            return false
+        }
+        
         const adulto = mayorEdad(data.adulto.value)
         if (!adulto) {
             alert('Debes ser mayor de edad para registrarte')
             return false
         }
+
+
         const dbFireStore = getFirestore()
         const userCollection = collection(dbFireStore, 'users')
         const queryRef = query(userCollection, where('email', '==', data.email.value))
@@ -69,6 +85,10 @@ const Register = () => {
                     <div className="registrar__campo">
                         <label className="registrar__label" htmlFor="email">Email</label>
                         <input className="registrar__input" type="email" id="email" name="email" placeholder="Tu Email" />
+                    </div>
+                    <div className="registrar__campo">
+                        <label className="registrar__label" htmlFor="email2">Repetir Email</label>
+                        <input className="registrar__input" type="email" id="email2" name="email2" placeholder="Tu Email de nuevo" />
                     </div>
                     <div className="registrar__campo">
                         <label className="registrar__label" htmlFor="contrasena">Contraseña</label>

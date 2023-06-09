@@ -14,7 +14,7 @@ export function NavBar() {
     
 
     useEffect(() => {
-        setLogoCentral("./central")
+        setLogoCentral("../../central")
     }, [category])
 
     const callUserDb = async (user, key) => {

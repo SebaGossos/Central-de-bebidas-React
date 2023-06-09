@@ -5,7 +5,7 @@ import CartNotification from "../CartNotification/CartNotification";
 
 const ProdCantidad = ({ product, stockProd, setStockProd }) => {
     const { stock, id, name } = product
-    const { productsCart, addToCart } = useCartContext()
+    const { productsCart, addToCart, setCartPrice } = useCartContext()
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
 
     // Segun el localStorage devuelve al estado 0 o la cantidad que tiene el item especifico.
@@ -59,6 +59,7 @@ const ProdCantidad = ({ product, stockProd, setStockProd }) => {
 
     function handleAgregarCart() {
         addToCart(product, cantidad)
+        setCartPrice(0)
         setMostrarAgregar(true)
         setCantidad(0)
     }

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, createContext } from "react";
-import { getFirestore, getDocs, doc, updateDoc, collection, writeBatch } from "firebase/firestore";
+import { getFirestore, getDocs, doc, updateDoc, collection, writeBatch, getDoc } from "firebase/firestore";
 
 
 export const ProductsContext = createContext()
@@ -9,6 +9,7 @@ export const ProductsProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState([])
     const [menu, setMenu] = useState(false)
+    const [controlStock, setControlStock] = useState(false) 
 
     const getPoductsFireBase = async () => {
         try{
@@ -23,11 +24,28 @@ export const ProductsProvider = ({children}) => {
     }
     useEffect(() => {
         getPoductsFireBase()
-    },[])
+    },[controlStock])
 
-    const updateProducts = (id) => {
-        
-    
+    const updateProductsQuantity = async (productUpdates) => {
+        const dbFireStore = getFirestore()
+        const productCollectionRef = collection(dbFireStore, 'products')
+        try{
+            productUpdates.forEach( async (update) => {
+                const {pId, quantity} = update
+                const docRef = doc(productCollectionRef, pId)
+
+                const docSnapshot = await getDoc(docRef)
+                const currentStock = docSnapshot.data().stock
+                const newStock = currentStock - quantity
+                const batch = writeBatch(dbFireStore)
+                batch.update(docRef, {stock: newStock})
+                await batch.commit()
+                setControlStock(true)
+            })
+
+        }catch(err){
+            console.error(err)
+        }
     }
 
     return (
@@ -35,7 +53,10 @@ export const ProductsProvider = ({children}) => {
             products,
             loading,
             menu,
-            setMenu
+            setMenu,
+            updateProductsQuantity,
+            controlStock,
+            setControlStock,
         }}>
             {children}
         </ProductsContext.Provider>

@@ -49,7 +49,6 @@ export const CartProvider = ({children}) => {
         for(const id in storedData){
             productsAdd.push(products.find(item => item.id === id))
         }
-        console.log(productsAdd)
         // Carrito
         setProductsCart([
             ...productsAdd

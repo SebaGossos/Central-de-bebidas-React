@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProdCantidad from "../ProdCantidad/ProdCantidad";
-const ItemDetail = ({product}) => {
+const ItemDetail = ({product, finalPrice}) => {
     const {id, image, name, description, stock} = product
     const [selectedImage, setSelectedImage] = useState(null)
     
@@ -15,10 +15,8 @@ const ItemDetail = ({product}) => {
         if(Array.isArray(image)) {
             setSelectedImage(image[0].img);
         }
-        
     },[image])
 
-    console.log(stockProd)
     const handleOptionChange = (event) => {
         setSelectedImage(event.target.value)
     }
@@ -26,9 +24,9 @@ const ItemDetail = ({product}) => {
     const renderImage = (imageUrl) => (
         <div className="card__imagen card__imagen--detail">
             <picture>
-                <source srcSet={`.${imageUrl}.avif`} type="image/avif" />
-                <source srcSet={`.${imageUrl}.webp`} type="image/webp" />
-                <img loading="lazy" src={`.${imageUrl}.jpg`} alt="imagen bebida" />
+                <source srcSet={`../../${imageUrl}.avif`} type="image/avif" />
+                <source srcSet={`../../${imageUrl}.webp`} type="image/webp" />
+                <img loading="lazy" src={`../../${imageUrl}.jpg`} alt="imagen bebida" />
             </picture>
         </div>
     )
@@ -65,6 +63,7 @@ const ItemDetail = ({product}) => {
                 <div className="card__container--text">
                     <h2 className="card__heading">{name}</h2>
                     <p className="card__stock">Stock: {stock} Unidades</p>
+                    <p className="card__price">{`$ ${finalPrice}`}</p>
                 </div>
                 <div className="card__container--price">
                     <ProdCantidad product={product} stockProd={stockProd} setStockProd={setStockProd}/>

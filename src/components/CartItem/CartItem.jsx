@@ -36,7 +36,6 @@ const CartItem = ({product, dolarPrice}) => {
                 <h2 className='card__heading'>{name}</h2>
                 <p className='card__stock'>Stock: {stockProd} Unidades</p>
                 <p ref={finalPrice} className='card__price' />
-                <Link to={`/detail/${id}`} className="card__description">Descripción</Link>
                 <CartProdCant valor={valor} cantidad={cantidad} setCantidad={setCantidad} product={product} stockProd={stockProd} setStockProd={setStockProd} />
             </li> 
         </>

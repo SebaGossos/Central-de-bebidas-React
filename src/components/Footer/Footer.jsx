@@ -6,7 +6,7 @@ const Footer = () => {
     const [route, setRoute] = useState("")
 
     useEffect(() => {
-        setRoute(".")
+        setRoute("../.")
     },[category])
 
     return (

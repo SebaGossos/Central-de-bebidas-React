@@ -6,7 +6,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 
 const ItemDetailContainer = () => {
   const {products, loading} = useProducts()
-  const {pid} = useParams()
+  const {pid, finalPrice} = useParams()
   const [product, setProduct] = useState({})
 
   const getProduct = () => {
@@ -33,7 +33,7 @@ const ItemDetailContainer = () => {
 
     return (
     <div className="contenedor">
-        <ItemDetail product={product}/>
+        <ItemDetail product={product} finalPrice={finalPrice}/>
     </div>
   )
 }

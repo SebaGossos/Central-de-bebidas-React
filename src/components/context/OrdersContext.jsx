@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { useUsers } from "./UsersContext"
 import { useCartContext } from "./CartContext"
 import { useProducts } from "./ProductsContext"
-import { getFirestore, doc, addDoc, updateDoc, collection, writeBatch } from "firebase/firestore"
+import { getFirestore, addDoc, collection } from "firebase/firestore"
 
 export const OrdersContext = createContext()
 export const useOrders = () => useContext(OrdersContext)
@@ -10,7 +10,7 @@ export const useOrders = () => useContext(OrdersContext)
 export const OrdersProvider = ({ children }) => {
     const { user } = useUsers()
     const { cartPrice, productsCart } = useCartContext()
-    const {products} = useProducts()
+    const {products, updateProductsQuantity, setControlStock} = useProducts()
     const [order, setOrder] = useState({})
 
     const setOrdersFireBase = async () => {
@@ -24,9 +24,11 @@ export const OrdersProvider = ({ children }) => {
     }
 
     useEffect(() =>{
-        setOrdersFireBase()
-
+        if(Object.keys(order).length > 0){
+            setOrdersFireBase()
+        }
     },[order])
+
 
     const finalizarOrden = () => {
 
@@ -40,7 +42,6 @@ export const OrdersProvider = ({ children }) => {
         }
 
         const storedData = JSON.parse(localStorage.getItem('productQuantitiesCart'))
-
         productsCart.map(item => {
 
             let cantidad = storedData[item.id]
@@ -51,9 +52,18 @@ export const OrdersProvider = ({ children }) => {
             })
         })
         setOrder(buyerOrder)
+    
+        // Extraer Data del LocalStorage para actualizar la cantidad de productos en la DB
+        const updateProductsStock = []
 
-
-    }
+        for(const key in storedData){
+            updateProductsStock.push({
+                pId: key,
+                quantity: storedData[key]
+            })
+        }
+        updateProductsQuantity(updateProductsStock)
+    }   
 
 
     return (

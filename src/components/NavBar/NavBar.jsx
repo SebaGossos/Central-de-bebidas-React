@@ -14,8 +14,7 @@ export function NavBar() {
     
 
     useEffect(() => {
-        setLogoCentral("../build/img/central")
-        console.log(menu)
+        setLogoCentral("../../build/img/central")
     }, [category])
 
     const callUserDb = async (user, key) => {
@@ -49,7 +48,6 @@ export function NavBar() {
 
         callUserDb(usuario, contrasena)
         .then(res => {
-            console.log(res)
             setIsAnUser(res)
         })
     }

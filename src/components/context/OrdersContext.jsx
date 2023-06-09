@@ -11,13 +11,16 @@ export const OrdersProvider = ({ children }) => {
     const { user } = useUsers()
     const { cartPrice, productsCart } = useCartContext()
     const {products, updateProductsQuantity, setControlStock} = useProducts()
+    const [orderId, setOrderId] = useState(0) 
     const [order, setOrder] = useState({})
 
     const setOrdersFireBase = async () => {
         const dbFirestore = getFirestore()
         const orderCollection = collection(dbFirestore, 'orders')
         try{
-            addDoc(orderCollection, order)
+            const docRef = await addDoc(orderCollection, order)
+            const orderKey = docRef.id
+            setOrderId(orderKey)
         }catch(error){
             console.log(error)
         }
@@ -69,6 +72,7 @@ export const OrdersProvider = ({ children }) => {
     return (
         <OrdersContext.Provider value={{
             finalizarOrden,
+            orderId
         }}>
             {children}
         </OrdersContext.Provider>

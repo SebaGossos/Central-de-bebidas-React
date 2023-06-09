@@ -13,7 +13,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
     const {cartPrice, setCartPrice, setRenderOptions, setProductsCart} = useCartContext()
     const {isAnUser, user} = useUsers()
-    const { finalizarOrden } = useOrders()
+    const { finalizarOrden, orderId } = useOrders()
     
     const apiDolar = async() => {
         try{
@@ -73,7 +73,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
         )
     }
     const handleBuyer = (e) => {
-        console.log(isAnUser)
+
         if(isAnUser){
             finalizarOrden()
             localStorage.setItem('productQuantitiesCart', JSON.stringify({}))
@@ -103,7 +103,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                 )}
             </ul>
             {renderOptions && renderElements}
-            {mostrarAgregar && <CartNotification text={"Compra realizada con exito!"} setMostrarAgregar={setMostrarAgregar} />}
+            {mostrarAgregar && <CartNotification text={`Compra N° ${orderId} realizada con exito!`} setMostrarAgregar={setMostrarAgregar} />}
         </>
     )
 }

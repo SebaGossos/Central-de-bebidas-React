@@ -8,13 +8,13 @@ import { collection, getDocs, getFirestore, query, where } from "firebase/firest
 export function NavBar() {
     const { category} = useParams()
     const [inicioSesion, setInicioSesion] = useState(false)
-    const [logoCentral, setLogoCentral] = useState("./build/img/central")
+    const [logoCentral, setLogoCentral] = useState("./central")
     const {menu} = useProducts()
     const {isAnUser, setIsAnUser, user, setUser} = useUsers()
     
 
     useEffect(() => {
-        setLogoCentral("../../build/img/central")
+        setLogoCentral("./central")
     }, [category])
 
     const callUserDb = async (user, key) => {

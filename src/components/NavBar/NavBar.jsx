@@ -14,7 +14,11 @@ export function NavBar() {
     
 
     useEffect(() => {
+<<<<<<< HEAD
         setLogoCentral("../../central")
+=======
+        setLogoCentral("/central")
+>>>>>>> rama1
     }, [category])
 
     const callUserDb = async (user, key) => {

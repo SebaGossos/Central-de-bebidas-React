@@ -13,7 +13,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
     const [mostrarAgregar, setMostrarAgregar] = useState(false)
     const {cartPrice, setCartPrice, setRenderOptions, setProductsCart} = useCartContext()
     const {isAnUser, user} = useUsers()
-    const { finalizarOrden, orderId } = useOrders()
+    const { finalizarOrden, orderId, showMessage } = useOrders()
     
     const apiDolar = async() => {
         try{
@@ -85,7 +85,6 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                     <Link to="/" className="finalizar__boton">Volver al menu</Link>
                 </div>
             )
-            setMostrarAgregar(true)
         }else{
             alert('Debes iniciar sesion para realizar una compra')
         }
@@ -103,7 +102,7 @@ const ItemList = ({products, routeImg, loading, renderOptions}) => {
                 )}
             </ul>
             {renderOptions && renderElements}
-            {mostrarAgregar && <CartNotification text={`Compra N° ${orderId} realizada con exito!`} setMostrarAgregar={setMostrarAgregar} />}
+            {(mostrarAgregar || showMessage) && <CartNotification text={orderId} setMostrarAgregar={setMostrarAgregar} />}
         </>
     )
 }

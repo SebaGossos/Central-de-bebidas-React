@@ -23,7 +23,7 @@ const Item = ({ product, routeImg, dolarPrice }) => {
             setControlStock(false)
         }
     },[stock])
-    console.log(controlStock)
+
     useEffect(() => {
         let valor = Math.ceil(price * dolarPrice)
         setFinalPrice(valor)

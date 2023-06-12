@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { useUsers } from "./UsersContext"
 import { useCartContext } from "./CartContext"
 import { useProducts } from "./ProductsContext"
-import { getFirestore, addDoc, collection } from "firebase/firestore"
+import { getFirestore, addDoc, collection, doc, getDoc } from "firebase/firestore"
 
 export const OrdersContext = createContext()
 export const useOrders = () => useContext(OrdersContext)
@@ -11,7 +11,8 @@ export const OrdersProvider = ({ children }) => {
     const { user } = useUsers()
     const { cartPrice, productsCart } = useCartContext()
     const {products, updateProductsQuantity, setControlStock} = useProducts()
-    const [orderId, setOrderId] = useState(0) 
+    const [orderId, setOrderId] = useState(null)
+    const [showMessage, setShowMessage] = useState(false)
     const [order, setOrder] = useState({})
 
     const setOrdersFireBase = async () => {
@@ -20,7 +21,27 @@ export const OrdersProvider = ({ children }) => {
         try{
             const docRef = await addDoc(orderCollection, order)
             const orderKey = docRef.id
-            setOrderId(orderKey)
+
+            const queryDoc = doc(orderCollection, orderKey)
+            const docSnap = await getDoc(queryDoc)
+            const itemsOrder = docSnap.data().items
+            const cartTotal = docSnap.data().totalPrice
+            const userName = docSnap.data().userData.name
+            
+
+            const orderProducts = {
+                key: orderKey,
+                items: [],
+                cartTotal: cartTotal,
+                name: userName
+            }
+            itemsOrder.map(item => orderProducts.items.push({
+                name: item.pName,
+                cantidad: item.pCantidad,
+            }))
+
+            return orderProducts
+
         }catch(error){
             console.log(error)
         }
@@ -29,6 +50,10 @@ export const OrdersProvider = ({ children }) => {
     useEffect(() =>{
         if(Object.keys(order).length > 0){
             setOrdersFireBase()
+            .then(res => {
+                setOrderId(res)
+                setShowMessage(true)
+            })
         }
     },[order])
 
@@ -72,7 +97,9 @@ export const OrdersProvider = ({ children }) => {
     return (
         <OrdersContext.Provider value={{
             finalizarOrden,
-            orderId
+            orderId,
+            showMessage,
+            setShowMessage
         }}>
             {children}
         </OrdersContext.Provider>
